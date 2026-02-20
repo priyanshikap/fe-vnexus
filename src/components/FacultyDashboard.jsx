@@ -209,6 +209,8 @@ body { font-family: 'DM Sans', sans-serif; }
 /* ── HEADER BAR ── */
 .fac-header {
   background: white;
+  position relative;
+  z-index:500;
   border: 2px solid var(--coffee-light);
   border-radius: 20px;
   padding: 1.25rem 1.75rem;
@@ -263,6 +265,7 @@ body { font-family: 'DM Sans', sans-serif; }
 .fac-dropdown {
   position: absolute; top: calc(100% + 0.5rem); right: 0;
   background: white; border: 2px solid var(--coffee-light);
+  z-index:1000;
   border-radius: 15px; padding: 1rem;
   box-shadow: 0 10px 30px var(--shadow);
   display: none; z-index: 100; min-width: 180px;
@@ -301,7 +304,7 @@ body { font-family: 'DM Sans', sans-serif; }
 .fac-posts-container {
   display: grid; gap: 1.5rem;
   max-height: calc(100vh - 170px);
-  overflow-y: auto; padding-right: 0.5rem;
+  padding-right: 0.5rem;
 }
 .fac-posts-container::-webkit-scrollbar { width: 8px; }
 .fac-posts-container::-webkit-scrollbar-track { background: var(--cream-dark); border-radius: 10px; }
