@@ -252,13 +252,13 @@ body { font-family: 'DM Sans', sans-serif; }
 .fac-sort-wrap { position: relative; }
 .fac-sort-btn {
   padding: 0.8rem 1.4rem;
-  background: var(--coffee);
+  background: #8B6030;
   color: white; border: none;
   border-radius: 14px; cursor: pointer;
   font-size: 0.95rem; font-weight: 500;
   display: flex; align-items: center; gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(107,86,68,0.2);
+  box-shadow: 0 4px 15px rgba(166,124,82,0.35);
 }
 .fac-sort-btn:hover { background: var(--coffee-dark); transform: translateY(-2px); }
 
