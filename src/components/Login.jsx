@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { login } from '../api';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
@@ -308,7 +309,7 @@ const styles = `
   }
 `;
 
-export default function Login() {
+export default function Login({ onStudentLogin, onFacultyLogin, onCreateAccount, onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -316,7 +317,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setStatus({ type: "error", msg: "Please fill in all fields." });
@@ -324,9 +325,30 @@ export default function Login() {
     }
     setStatus(null);
     setLoading(true);
+
+    if (onLogin) {
+      try {
+        const result = await login(email, password);
+        setLoading(false);
+        setStatus({ type: "success", msg: "Login successful! Redirecting..." });
+        onLogin(result);
+      } catch (error) {
+        setLoading(false);
+        setStatus({ type: "error", msg: error.message });
+      }
+      return;
+    }
+
     setTimeout(() => {
       setLoading(false);
-      setStatus({ type: "success", msg: "Welcome back! Redirecting..." });
+      const isFaculty = /@vit\.ac\.in$/i.test(email) || /faculty/i.test(email);
+      if (isFaculty) {
+        setStatus({ type: "success", msg: "Faculty login successful! Redirecting..." });
+        if (onFacultyLogin) onFacultyLogin();
+      } else {
+        setStatus({ type: "success", msg: "Student login successful! Redirecting..." });
+        if (onStudentLogin) onStudentLogin();
+      }
     }, 1800);
   };
 
@@ -363,7 +385,7 @@ export default function Login() {
             <div className="form-header">
               <h1 className="form-heading">Welcome back</h1>
               <p className="form-sub">
-                New here? <a href="#">Create a free account</a>
+                New here? <button type="button" onClick={onCreateAccount} style={{ background: 'none', border: 'none', padding: 0, color: '#C4603A', cursor: 'pointer', fontWeight: 600 }}>Create a free account</button>
               </p>
             </div>
 
@@ -455,12 +477,21 @@ export default function Login() {
   Remember me
 </label>
 
-                <a href="#" className="forgot-link">Forgot password?</a>
+                <button type="button" className="forgot-link">Forgot password?</button>
               </div>
 
               <button type="submit" className={`btn-primary ${loading ? "loading" : ""}`}>
                 {loading ? "Logging in..." : "Login"}
               </button>
+
+              <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
+                <button type="button" className="btn-social" onClick={onStudentLogin} style={{ flex: 1 }}>
+                  Student Login
+                </button>
+                <button type="button" className="btn-social" onClick={onFacultyLogin} style={{ flex: 1 }}>
+                  Faculty Login
+                </button>
+              </div>
             </form>
 
             <div className="or-divider">

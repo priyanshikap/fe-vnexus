@@ -671,7 +671,7 @@ function useCounter(target, duration = 1800, start = false) {
   return count;
 }
 
-export default function Home() {
+export default function Home({ onGetStarted }) {
   const [statsVisible, setStatsVisible] = useState(false);
   const aboutRef = useRef(null);
   const sceneRef = useRef(null);
@@ -754,7 +754,7 @@ export default function Home() {
             <p className="tagline-spotlight">
               Where ideas meet mentorship and research becomes collaboration.
             </p>
-            <button className="cta-button" onClick={() => alert('Get Started clicked!')}>
+            <button className="cta-button" onClick={onGetStarted || (() => alert('Get Started clicked!'))}>
               Get Started
               <svg className="cta-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M3 8h10M9 4l4 4-4 4"/>
